@@ -639,9 +639,7 @@ trap cleanup SIGINT SIGTERM SIGHUP SIGQUIT SIGABRT SIGKILL SIGALRM SIGPIPE SIGTE
         elif self.is_container_executor():
             return self.get_container_invocation()
         else:
-            launcher = self.buildexecutor.executors[self.executor].launcher_command(
-                self.testpath
-            )
+            launcher = self.buildexecutor.executors[self.executor].launcher_command( numprocs=self.numprocs, numnodes=self.numnodes)
             return [" ".join(launcher) + " " + f"{self.testpath}"]
 
     def _copy_build_script_to_test_root(self) -> None:
