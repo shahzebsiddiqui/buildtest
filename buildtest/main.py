@@ -38,7 +38,6 @@ from buildtest.cli.inspect import (
 )
 from buildtest.cli.path import path_cmd
 from buildtest.cli.report import Report, report_cmd
-from buildtest.cli.schema import schema_cmd
 from buildtest.cli.show import buildtest_show
 from buildtest.cli.stats import stats_cmd
 from buildtest.config import SiteConfiguration
@@ -139,9 +138,6 @@ def main():
             configuration=configuration,
             report_file=report_file,
         )
-    # running buildtest schema
-    elif args.subcommands == "schema":
-        schema_cmd(args)
 
     # running buildtest cdash
     elif args.subcommands == "cdash":

@@ -509,25 +509,6 @@ def print_cdash_show():
     console.print(table)
 
 
-def print_schema_show():
-    """This method will print help message for command ``buildtest show schema``"""
-
-    table = Table(title="Buildtest Schemas", show_lines=False)
-    table.add_column("Command", justify="left", style="cyan", overflow="fold")
-    table.add_column("Description", justify="left", style="magenta", overflow="fold")
-
-    table.add_row("buildtest schema", "Report all buildtest schema files")
-    table.add_row(
-        "buildtest schema -n script.schema.json -e ",
-        "Show example for schema type script-v1.0-schema.json",
-    )
-    table.add_row(
-        "buildtest schema -n script.schema.json -j",
-        "Show content of JSON schema for script.schema.json",
-    )
-    console.print(table)
-
-
 def print_stylecheck_show():
     """This method will print help message for command ``buildtest show stylecheck``"""
 
@@ -635,8 +616,6 @@ def buildtest_show(command):
         print_history_show()
     elif command == "cdash":
         print_cdash_show()
-    elif command == "schema":
-        print_schema_show()
     elif command in ["stylecheck", "style"]:
         print_stylecheck_show()
     elif command in ["unittests", "test"]:
