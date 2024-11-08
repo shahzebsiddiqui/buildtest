@@ -313,22 +313,6 @@ along with configuration file and output of log file during the report.
 
     .. command-output:: buildtest debugreport
 
-Example Configurations
-~~~~~~~~~~~~~~~~~~~~~~~
-
-buildtest provides a few example configurations for configuring buildtest this
-can be retrieved by running ``buildtest schema -n settings.schema.json --examples``
-or short option (``-e``), which will validate each example with schema file
-``settings.schema.json``.
-
-.. dropdown:: ``buildtest schema -n settings.schema.json -e``
-
-    .. command-output:: buildtest schema -n settings.schema.json -e
-
-If you want to retrieve full json schema file for buildtest configuration you can
-run ``buildtest schema -n settings.schema.json --json`` or short option ``-j``.
-
-
 Accessing Log File
 --------------------
 
