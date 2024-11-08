@@ -12,7 +12,6 @@ from rich.color import Color, ColorParseError
 
 from buildtest import BUILDTEST_COPYRIGHT, BUILDTEST_VERSION
 from buildtest.defaults import console
-from buildtest.schemas.defaults import schema_table
 
 
 def build_filters_format(val):
@@ -238,7 +237,6 @@ class BuildTestParser:
         "path",
         "rt",
         "report",
-        "schema",
         "style",
         "stylecheck",
         "test",
@@ -266,7 +264,6 @@ class BuildTestParser:
             "inspect": {"help": "Inspect a test", "aliases": ["it"]},
             "path": {"help": "Show path attributes for a given test", "aliases": ["p"]},
             "history": {"help": "Query build history", "aliases": ["hy"]},
-            "schema": {"help": "List schema contents and examples"},
             "cdash": {"help": "Upload test to CDASH server"},
             "cd": {"help": "Change directory to root of test given a test name"},
             "clean": {
@@ -331,7 +328,6 @@ class BuildTestParser:
         self.inspect_menu()
         self.path_menu()
         self.history_menu()
-        self.schema_menu()
         self.cdash_menu()
         self.unittest_menu()
         self.stylecheck_menu()
@@ -1838,33 +1834,6 @@ class BuildTestParser:
                 parser.add_argument(*arg_info[0], **arg_info[1])
 
         return
-
-    def schema_menu(self):
-        """This method builds menu for ``buildtest schema``"""
-
-        parser_schema = self.subparsers.choices["schema"]
-
-        schema_args = [
-            (
-                ["-e", "--example"],
-                {"action": "store_true", "help": "Show schema examples"},
-            ),
-            (
-                ["-j", "--json"],
-                {"action": "store_true", "help": "Display json schema file"},
-            ),
-            (
-                ["-n", "--name"],
-                {
-                    "help": "show schema by name (e.g., script)",
-                    "metavar": "Schema Name",
-                    "choices": schema_table["names"],
-                },
-            ),
-        ]
-
-        for arg_info in schema_args:
-            parser_schema.add_argument(*arg_info[0], **arg_info[1])
 
     def cdash_menu(self):
         """This method builds arguments for ``buildtest cdash`` command."""

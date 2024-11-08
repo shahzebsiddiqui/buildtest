@@ -44,11 +44,6 @@ _avail_buildspecs ()
   buildtest buildspec find --buildspec --terse --count=-1 --no-header 2>/dev/null
 }
 
-# get list of schemas
-_avail_schemas ()
-{
-  buildtest schema
-}
 
 # list of available executors
 _avail_executors ()
@@ -229,15 +224,6 @@ _buildtest ()
       ;;
     stats)
       COMPREPLY=( "$( compgen  -W "$(_test_name)" -- "${cur}" )" );;
-    schema)
-      local opts="-h -n -e -j --name --example --json"
-      COMPREPLY=( "$( compgen -W "$opts" -- "${cur}" )" )
-
-      # fill auto-completion for 'buildtest schema --name'
-      if [[ "${prev}" == "-n" ]] || [[ "${prev}" == "--name"  ]]; then
-        COMPREPLY=( "$( compgen -W "$(_avail_schemas)" -- "${cur}" )" )
-      fi
-      ;;
 
     report|rt)
       local opts="--detailed --end --fail --filter --filterfields --format --formatfields --help --helpfilter --helpformat --latest --no-header --oldest --pager --pass --row-count --start --terse -d -e -f -h -n -p -s -t"
