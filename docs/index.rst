@@ -110,7 +110,6 @@ Useful Links
    getting_started
    writing_buildspecs
    features
-   schema_examples
    facility_examples
    api
    command
