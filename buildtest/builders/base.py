@@ -640,7 +640,7 @@ trap cleanup SIGINT SIGTERM SIGHUP SIGQUIT SIGABRT SIGKILL SIGALRM SIGPIPE SIGTE
             return self.get_container_invocation()
         else:
             launcher = self.buildexecutor.executors[self.executor].launcher_command(
-                self.testpath
+                numprocs=self.numprocs, numnodes=self.numnodes
             )
             return [" ".join(launcher) + " " + f"{self.testpath}"]
 
