@@ -17,6 +17,8 @@ system:
     # test timeout in number of seconds
     # timeout: 3600
 
+    file_traversal_limit: 5
+
     # enable pagination for buildtest
     pager: false
 

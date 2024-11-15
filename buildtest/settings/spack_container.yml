@@ -6,6 +6,7 @@ system:
     moduletool: lmod
     testdir: ~/runs
     pager: false
+    file_traversal_limit: 1000
     buildspecs:
       rebuild: false
       count: 15

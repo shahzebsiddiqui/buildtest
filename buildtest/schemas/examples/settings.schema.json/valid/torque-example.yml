@@ -3,6 +3,7 @@ system:
     hostnames: ['.*']
     moduletool: none
     poolsize: 1
+    file_traversal_limit: 1000
     buildspecs:
       # whether to rebuild cache file automatically when running `buildtest buildspec find`
       rebuild: False

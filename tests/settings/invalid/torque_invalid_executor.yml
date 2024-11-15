@@ -5,6 +5,7 @@ system:
     description: Generic System
     moduletool: environment-modules
     pager: false
+    file_traversal_limit: 1000
     buildspecs:
       rebuild: false
       count: 15

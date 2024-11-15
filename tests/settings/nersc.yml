@@ -7,6 +7,7 @@ system:
     poolsize: 8
     max_jobs: 10
     pager: False
+    file_traversal_limit: 1000
     buildspecs:
       rebuild: False
       count: 15

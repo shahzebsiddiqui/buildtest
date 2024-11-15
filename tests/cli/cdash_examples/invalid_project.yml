@@ -4,6 +4,7 @@ system:
     - .*
     description: Generic System
     moduletool: N/A
+    file_traversal_limit: 1000
     cdash:
       url: "https://my.cdash.org"
       project: INVALID-PROJECT

@@ -17,6 +17,9 @@ system:
     # test timeout in number of seconds
     # timeout: 3600
 
+    # This configuration is used to limit the number of files that can be traversed when searching for buildspecs
+    # file_traversal_limit: 1000
+
     # enable pagination for buildtest
     pager: false
 
