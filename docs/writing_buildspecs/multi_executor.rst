@@ -80,8 +80,7 @@ Cray Burst Buffer and Data Warp
 
 You can also define ``BB`` and ``DW`` directives in the ``executors`` field to override
 cray burst buffer and data warp settings per executor. buildtest will use the fields ``BB``
-and ``DW`` and insert the ``#BB`` and ``#DW`` directives in the job script. For more details
-see :ref:`cray_burstbuffer_datawarp`.
+and ``DW`` and insert the ``#BB`` and ``#DW`` directives in the job script.
 
 .. literalinclude:: ../tutorials/burstbuffer_datawarp_executors.yml
     :language: yaml
