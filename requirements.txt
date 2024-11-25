@@ -9,7 +9,7 @@ rich
 coverage
 pytest
 isort
-black==24.3.0
+black==24.10.0
 pyflakes
 # https://urllib3.readthedocs.io/en/latest/v2-migration-guide.html
 urllib3>=2.1.0
