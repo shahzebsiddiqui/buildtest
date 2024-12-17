@@ -208,6 +208,8 @@ class BuildspecCache:
         file_traversal_limit = self.configuration.target_config.get(
             "file_traversal_limit", 1000
         )
+        print("file_traversal_limit", file_traversal_limit)
+
         # recursively search all .yml files in directory and add to list
         if self.paths:
             for path in self.paths:
@@ -1254,6 +1256,7 @@ def buildspec_validate_command(
         tags=tags,
         executors=executors,
         name=name,
+        site_config=configuration,
     )
     detected_buildspecs = buildspecs_dict["detected"]
 

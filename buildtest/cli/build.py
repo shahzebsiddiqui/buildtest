@@ -153,10 +153,12 @@ def discover_buildspecs(
     )
 
     cache = load_json(BUILDSPEC_CACHE_FILE)
-    
+
     # get file_traversal_limit from the config
     if site_config and site_config.target_config:
-        file_traversal_limit = site_config.target_config.get("file_traversal_limit", 1000)
+        file_traversal_limit = site_config.target_config.get(
+            "file_traversal_limit", 1000
+        )
     else:
         file_traversal_limit = 1000
 
@@ -556,7 +558,9 @@ def discover_by_buildspecs(buildspec: str, file_traversal_limit: int) -> list:
         logger.debug(
             f"Buildspec File: {buildspec} is a directory so traversing directory tree to find all Buildspec files with .yml extension"
         )
-        buildspecs = walk_tree(buildspec, ".yml", file_traverse_limit=file_traversal_limit)
+        buildspecs = walk_tree(
+            buildspec, ext=".yml", file_traverse_limit=file_traversal_limit
+        )
     elif os.path.isfile(buildspec):
         # if buildspec doesn't end in .yml extension we print message and return None
         if not re.search(".yml$", buildspec):

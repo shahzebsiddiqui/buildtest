@@ -1,0 +1,59 @@
+system:
+  generic:
+    # specify a list of hostnames that is a regular expression where buildtest can run.
+    hostnames: ['.*']
+    # system description
+    description: Generic System
+    # specify module system to use. Supported module systems are lmod, environment-modules or set to N/A if not available
+    moduletool: none
+
+    # specify size of job pool (https://docs.python.org/3/library/multiprocessing.html#multiprocessing.pool.Pool). This will configure the number of processes that can run in parallel.
+    # If not specified then buildtest will use all available cores on the system.
+    poolsize: 1
+
+    # maximum number of jobs that can run in parallel. If not specified, buildtest will run all jobs in parallel.
+    #max_jobs: 1
+
+    # test timeout in number of seconds
+    # timeout: 3600
+
+    file_traversal_limit: 1
+
+    # enable pagination for buildtest
+    pager: false
+
+    # options for buildtest buildspec find command
+    buildspecs:
+      # determine whether to rebuild buildspec cache
+      rebuild: false
+      # determine number of records to display
+      count: 15
+
+      # specify format fields
+      #format: name,description
+
+      # display output in terse mode
+      terse: false
+
+    # options for buildtest report command
+    report:
+      # number of records to display
+      count: 25
+      # specify format fields
+      format: name,id,state,runtime,returncode
+
+    executors:
+      local:
+        bash:
+          description: submit jobs on local machine using bash shell
+          shell: bash
+        csh:
+          description: submit jobs on local machine using csh shell
+          shell: csh
+    compilers:
+      compiler:
+        gcc:
+          builtin_gcc:
+            cc: gcc
+            fc: gfortran
+            cxx: g++
