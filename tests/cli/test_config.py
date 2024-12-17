@@ -5,6 +5,7 @@ import tempfile
 import pytest
 
 from buildtest.cli.build import BuildTest
+from buildtest.cli.buildspec import buildspec_validate_command
 from buildtest.cli.config import (
     list_profiles,
     remove_executors,
@@ -16,7 +17,7 @@ from buildtest.cli.config import (
     view_system,
 )
 from buildtest.config import SiteConfiguration
-from buildtest.defaults import DEFAULT_SETTINGS_SCHEMA, SCHEMA_ROOT
+from buildtest.defaults import BUILDTEST_ROOT, DEFAULT_SETTINGS_SCHEMA, SCHEMA_ROOT
 from buildtest.executors.setup import BuildExecutor
 from buildtest.schemas.defaults import custom_validator
 from buildtest.schemas.utils import load_recipe, load_schema
@@ -187,3 +188,19 @@ def test_disabled_invalid_executors():
 
     # buildtest config executors list --invalid
     view_executors(configuration=configuration, buildexecutor=be, display_invalid=True)
+
+
+def test_file_traversal_limit_in_config():
+    here = os.path.dirname(os.path.abspath(__file__))
+
+    configfile = os.path.join(here, "configuration", "file_traversal_example.yml")
+    configuration = SiteConfiguration(settings_file=configfile)
+    configuration.detect_system()
+    configuration.validate()
+
+    # exception can be raised when buildspec is invalid
+    with pytest.raises(SystemExit):
+        buildspec_validate_command(
+            buildspecs=[os.path.join(BUILDTEST_ROOT, "tutorials")],
+            configuration=configuration,
+        )

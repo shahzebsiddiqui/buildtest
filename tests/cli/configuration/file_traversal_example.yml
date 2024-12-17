@@ -17,7 +17,7 @@ system:
     # test timeout in number of seconds
     # timeout: 3600
 
-    file_traversal_limit: 1000
+    file_traversal_limit: 1
 
     # enable pagination for buildtest
     pager: false
@@ -39,7 +39,6 @@ system:
     report:
       # number of records to display
       count: 25
-
       # specify format fields
       format: name,id,state,runtime,returncode
 
@@ -48,15 +47,9 @@ system:
         bash:
           description: submit jobs on local machine using bash shell
           shell: bash
-      container:
-        ubuntu:
-          image: ubuntu:20.04
-          platform: docker
-          description: submit jobs on ubuntu container
-        python:
-          image: python:3.11.0
-          platform: docker
-          description: submit jobs on python container
+        csh:
+          description: submit jobs on local machine using csh shell
+          shell: csh
     compilers:
       compiler:
         gcc:

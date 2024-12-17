@@ -121,6 +121,7 @@ def discover_buildspecs(
     executors: Optional[List[str]] = None,
     tags: Optional[List[str]] = None,
     verbose: Optional[bool] = False,
+    site_config: Optional[SiteConfiguration] = None,
 ) -> Dict[str, List[str]]:
     """This method discovers all buildspecs based on --buildspecs, --tags, --executor
     and excluding buildspecs (--exclude).
@@ -132,6 +133,7 @@ def discover_buildspecs(
         tags (list, optional): List of input tags for discovering buildspecs by argument ``buildtest build --tags``
         executors (list, optional): List of input executors for discovering buildspecs by argument ``buildtest build --executor``
         verbose (bool, optional): Enable verbose output for buildtest that is specified by ``buildtest --verbose``
+        site_config (buildtest.config.SiteConfiguration, optional): instance of SiteConfiguration class that has the buildtest configuration
 
     Returns:
         dict: A dictionary containing a list of included, excluded, detected buildspecs and buildspecs detected based on tags and executors
@@ -151,6 +153,14 @@ def discover_buildspecs(
     )
 
     cache = load_json(BUILDSPEC_CACHE_FILE)
+
+    # get file_traversal_limit from the config
+    if site_config and site_config.target_config:
+        file_traversal_limit = site_config.target_config.get(
+            "file_traversal_limit", 1000
+        )
+    else:
+        file_traversal_limit = 1000
 
     # discover buildspecs based on --tags
     if tags:
@@ -205,7 +215,7 @@ def discover_buildspecs(
         # Discover list of one or more Buildspec files based on path provided. Since --buildspec can be provided multiple
         # times we need to invoke discover_buildspecs once per argument.
         for option in buildspecs:
-            bp = discover_by_buildspecs(option)
+            bp = discover_by_buildspecs(option, file_traversal_limit)
 
             # only add buildspecs if its not None
             if bp:
@@ -237,7 +247,7 @@ def discover_buildspecs(
         # discover all excluded buildspecs, if its file add to list,
         # if its directory traverse all .yml files
         for name in exclude_buildspecs:
-            bp = discover_by_buildspecs(name)
+            bp = discover_by_buildspecs(name, file_traversal_limit)
             if bp:
                 buildspec_dict["excluded"] += bp
 
@@ -500,7 +510,7 @@ def discover_buildspecs_by_executor(buildspec_cache, executors):
     return buildspecs, buildspecs_by_executors
 
 
-def discover_by_buildspecs(buildspec: str) -> list:
+def discover_by_buildspecs(buildspec: str, file_traversal_limit: int) -> list:
     """Given a buildspec file specified by the user with ``buildtest build --buildspec``,
     discover one or more files and return a list for buildtest to process.
     This method is called once per argument of ``--buildspec`` or ``--exclude``
@@ -525,6 +535,7 @@ def discover_by_buildspecs(buildspec: str) -> list:
 
     Args:
         buildspec (str): Full path to buildspec based on argument ``buildtest build --buildspec``
+        file_traversal_limit (int): Limit the number of files that can be traversed when searching for buildspecs
 
     Returns:
         list: List of resolved buildspecs.
@@ -547,7 +558,9 @@ def discover_by_buildspecs(buildspec: str) -> list:
         logger.debug(
             f"Buildspec File: {buildspec} is a directory so traversing directory tree to find all Buildspec files with .yml extension"
         )
-        buildspecs = walk_tree(buildspec, ".yml")
+        buildspecs = walk_tree(
+            buildspec, ext=".yml", file_traverse_limit=file_traversal_limit
+        )
     elif os.path.isfile(buildspec):
         # if buildspec doesn't end in .yml extension we print message and return None
         if not re.search(".yml$", buildspec):
@@ -1119,6 +1132,7 @@ class BuildTest:
         if self.helpfilter or self.save_profile:
             return
 
+        # pass in self.config
         self.discovered_bp = discover_buildspecs(
             buildspecs=self.buildspecs,
             exclude_buildspecs=self.exclude_buildspecs,
@@ -1126,6 +1140,7 @@ class BuildTest:
             tags=self.tags,
             executors=self.executors,
             verbose=self.verbose,
+            site_config=self.configuration,
         )
 
         print_discovered_buildspecs(buildspec_dict=self.discovered_bp)

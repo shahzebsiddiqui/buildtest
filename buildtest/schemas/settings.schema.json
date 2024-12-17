@@ -66,6 +66,11 @@
             "minimum": 1,
             "description": "Maximum number of jobs that can be run at a given time for a particular executor"
         },
+        "file_traversal_limit": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Determine the number of files that can be traversed when searching for buildspecs"
+        },
         "testdir": {
           "type": "string",
           "description": "Specify full path to test directory where buildtest will write tests."
