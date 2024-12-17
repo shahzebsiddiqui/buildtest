@@ -205,10 +205,15 @@ class BuildspecCache:
         """
 
         buildspecs = []
+        file_traversal_limit = self.configuration.target_config.get(
+            "file_traversal_limit", 1000
+        )
         # recursively search all .yml files in directory and add to list
         if self.paths:
             for path in self.paths:
-                buildspec = walk_tree(path, ".yml")
+                buildspec = walk_tree(
+                    path, file_traverse_limit=file_traversal_limit, ext=".yml"
+                )
                 buildspecs += buildspec
 
         if self.buildspec_files_to_add:
